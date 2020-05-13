@@ -1,8 +1,55 @@
-h1 {
-  color: green;
+body {
+  margin: auto;
 }
 
-body {
+h1 {
+  color: green;
   text-align: center;
-  margin: auto;
+}
+
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 50px;
+}
+
+.card {
+  flex: 1;
+  background-color: #aaa;
+  margin: 50px;
+  width: 375px;
+  min-width: 375px;
+  max-width: 400px;
+}
+
+.card h2 {
+  padding: 10px;
+  background-color: lightblue;
+  margin-top: 0;
+}
+
+.row {
+  padding: 5px 10px;
+  display: flex;
+}
+
+.row div {
+  flex: 1;
+}
+
+.row .left {
+  text-align: left;
+}
+
+.row .right {
+  text-align: right;
+}
+
+.row:nth-child(even) {
+  background-color: #ccc;
+}
+
+.footer {
+  text-align: center;
+  margin: 100px auto;
 }

@@ -1,7 +1,7 @@
 {
-  "name": "simple-react-full-stack",
+  "name": "iSpindel-Logger",
   "version": "1.0.0",
-  "description": "Boilerplate to build a full stack web application using React, Node.js, Express and Webpack.",
+  "description": "Logger for calibration of iSpindel",
   "main": "src/server/index.js",
   "scripts": {
     "build": "webpack --mode production",
@@ -10,11 +10,13 @@
     "server": "nodemon src/server/index.js",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "author": "Sandeep Raveesh",
+  "author": "Andrew Moch",
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.19.0",
     "express": "^4.16.3",
+    "open": "^7.0.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2"
   },
