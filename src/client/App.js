@@ -66,7 +66,7 @@ export default class App extends Component {
                       <div className="right">{iSpindel.ID}</div>
                     </div>
                     <div className="row">
-                      <div className="left">Angel</div>
+                      <div className="left">Angle</div>
                       <div className="right">{iSpindel.angle}</div>
                     </div>
                     <div className="row">
