@@ -53,4 +53,4 @@ npm start
 
 Your browser will open after the server is up and running.  
 
-After you capture the data, don't forget to change your iSpindel settings back to your desired server type.
+After you capture the data, don't forget to change your iSpindel settings back to your desired service type and port.
