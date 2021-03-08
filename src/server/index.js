@@ -2,6 +2,8 @@ const express = require('express');
 const os = require('os');
 const bodyParser = require('body-parser');
 const open = require('open');
+const moment = require('moment');
+const { createCSV } = require('./files.js');
 
 const app = express();
 const iSpindelData = [];
@@ -17,10 +19,10 @@ app.get('/api/getData', (req, res) => res.send(iSpindelData));
 app.use(express.json());
 
 app.post('/', (req, res) => {
-  const existingIndex = iSpindelData.findIndex(spindel => spindel.ID === req.body.ID);
-  const time = new Date();
-  const formattedNumber = ( number ) => ('0' + number).slice(-2);
-  req.body.time = `${time.getHours()}:${formattedNumber(time.getMinutes())}:${formattedNumber(time.getSeconds())}`;
+  const existingIndex = iSpindelData.findIndex((spindel) => spindel.ID === req.body.ID);
+
+  // establish date as part of time stamp
+  req.body.time = moment().format();
 
   if (existingIndex > -1) {
     iSpindelData.splice(existingIndex, 1, req.body);
@@ -28,7 +30,9 @@ app.post('/', (req, res) => {
     iSpindelData.push(req.body);
   }
 
-  res.send(iSpindelData);
+  createCSV(req.body);
+
+  res.sendStatus(200);
 });
 
 app.listen(process.env.PORT || 5000, () => {
