@@ -20,13 +20,29 @@ module.exports = {
       time
     }];
     const fileName = `${data.name}_${data.ID}.csv`;
-    const filePath = `${helpers.appPath()}/src/csv/${fileName}`;
+    const directoryPath = `${helpers.appPath()}/src/csv/`;
+    const filePath = `${directoryPath}${fileName}`;
     const csvWriterHeader = [
-      { id: 'angle', title: 'ANGLE' },
-      { id: 'temperature', title: 'TEMPERATURE' },
-      { id: 'battery', title: 'BATTERY' },
-      { id: 'gravity', title: 'GRAVITY' },
-      { id: 'time', title: 'TIME' }
+      {
+        id: 'angle',
+        title: 'ANGLE'
+      },
+      {
+        id: 'temperature',
+        title: 'TEMPERATURE'
+      },
+      {
+        id: 'battery',
+        title: 'BATTERY'
+      },
+      {
+        id: 'gravity',
+        title: 'GRAVITY'
+      },
+      {
+        id: 'time',
+        title: 'TIME'
+      }
     ];
 
     const csvWriterParams = {
@@ -34,21 +50,24 @@ module.exports = {
       header: csvWriterHeader
     };
 
-    fs.access(filePath, fs.constants.W_OK, (err) => {
-      if (!err) {
-        csvWriterParams.append = true;
-      }
+    // check for directory
+    if (!fs.existsSync(directoryPath)) {
+      // if no directory make it
+      fs.mkdirSync(directoryPath);
+    }
 
-      createCsvWriter(csvWriterParams).writeRecords(record).then(() => {
-        fs.stat(filePath, (err) => {
-          if (!err) {
-            helpers.copyCSV(helpers.appPath(), fileName);
-          }
-        });
+    // check for file and if it exists: append
+    if (fs.existsSync(filePath)) {
+      csvWriterParams.append = true;
+    }
 
-        console.log('saved: ', record);
-        console.log('append', csvWriterParams.append);
+    createCsvWriter(csvWriterParams)
+      .writeRecords(record)
+      .then(() => {
+        helpers.copyCSV(helpers.appPath(), fileName);
+      })
+      .catch((err) => {
+        console.log('createCsvWriter Error: ', err);
       });
-    });
   }
 };
