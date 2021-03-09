@@ -5,6 +5,7 @@ const open = require('open');
 const moment = require('moment');
 const { createCSV } = require('./files.js');
 
+const defaultPort = 3000;
 const app = express();
 const iSpindelData = [];
 
@@ -35,8 +36,8 @@ app.post('/', (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || defaultPort, () => {
   const OSLocal = os.platform() !== 'win32' ? 'http://localhost' : 'http://127.0.0.1';
-  open(`${OSLocal}:${process.env.PORT || 3000}`);
-  console.log(`Listening on port ${process.env.PORT || 3000}!`);
+  open(`${OSLocal}:${process.env.PORT || defaultPort}`);
+  console.log(`Listening on port ${process.env.PORT || defaultPort}!`);
 });
