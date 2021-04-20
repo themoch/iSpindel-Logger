@@ -54,3 +54,10 @@ npm start
 Your browser will open after the server is up and running.  
 
 After you capture the data, don't forget to change your iSpindel settings back to your desired service type and port.
+
+
+## ToDo:
+* Add bot for notifications of start and stop fermentation: https://core.telegram.org/api#bot-api
+* interface to allow assignment of fermenter/tank to device
+* UI to show change over period of time (hour, day, 3-day, week, month)
+* UI / calculation to display approx alcohol in solution
