@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -25,13 +25,39 @@ ChartJS.register(
 );
 
 const GravityChart = ({ history }) => {
+  const [timeWindow, setTimeWindow] = useState('all');
+
+  // Filter history based on selected time window
+  const filteredHistory = useMemo(() => {
+    if (timeWindow === 'all' || !history || history.length === 0) {
+      return history || [];
+    }
+
+    const now = Date.now();
+    const timeWindows = {
+      'day': 24 * 60 * 60 * 1000,        // 1 day in milliseconds
+      '3days': 3 * 24 * 60 * 60 * 1000,  // 3 days
+      'week': 7 * 24 * 60 * 60 * 1000,   // 1 week
+      'month': 30 * 24 * 60 * 60 * 1000  // 30 days
+    };
+
+    const cutoffTime = now - timeWindows[timeWindow];
+    const filtered = history.filter(entry => {
+      // Make sure timestamp exists and is a number
+      const entryTimestamp = typeof entry.timestamp === 'number' ? entry.timestamp : 0;
+      return entryTimestamp >= cutoffTime;
+    });
+
+    console.log(`Time window: ${timeWindow}, Cutoff: ${new Date(cutoffTime)}, Filtered: ${filtered.length}/${history.length}`);
+    return filtered;
+  }, [history, timeWindow]);
   // Prepare data for the chart
   const chartData = {
-    labels: history.map(entry => entry.time),
+    labels: filteredHistory.map(entry => entry.time),
     datasets: [
       {
         label: 'Gravity',
-        data: history.map(entry => entry.gravity),
+        data: filteredHistory.map(entry => entry.gravity),
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         fill: true,
@@ -42,7 +68,7 @@ const GravityChart = ({ history }) => {
       },
       {
         label: 'Temperature',
-        data: history.map(entry => entry.temperature),
+        data: filteredHistory.map(entry => entry.temperature),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         fill: true,
@@ -53,7 +79,7 @@ const GravityChart = ({ history }) => {
       },
       {
         label: 'Battery',
-        data: history.map(entry => entry.battery),
+        data: filteredHistory.map(entry => entry.battery),
         borderColor: 'rgb(255, 205, 86)',
         backgroundColor: 'rgba(255, 205, 86, 0.2)',
         fill: true,
@@ -161,8 +187,39 @@ const GravityChart = ({ history }) => {
   };
 
   return (
-    <div style={{ height: '150px', padding: '10px' }}>
-      <Line data={chartData} options={options} />
+    <div style={{ padding: '10px' }}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '10px'
+      }}>
+        <div style={{ fontSize: '12px', color: '#666' }}>
+          Showing {filteredHistory.length} data point{filteredHistory.length !== 1 ? 's' : ''}
+        </div>
+        <select
+          value={timeWindow}
+          onChange={(e) => setTimeWindow(e.target.value)}
+          style={{
+            padding: '5px 10px',
+            fontSize: '12px',
+            borderRadius: '4px',
+            border: '1px solid #ccc',
+            backgroundColor: 'white',
+            cursor: 'pointer',
+            outline: 'none'
+          }}
+        >
+          <option value="all">All Time</option>
+          <option value="day">Last 24 Hours</option>
+          <option value="3days">Last 3 Days</option>
+          <option value="week">Last Week</option>
+          <option value="month">Last Month</option>
+        </select>
+      </div>
+      <div style={{ height: '150px' }}>
+        <Line data={chartData} options={options} />
+      </div>
     </div>
   );
 };
