@@ -5,6 +5,7 @@ const open = require('open');
 
 const app = express();
 const iSpindelData = [];
+const gravityHistory = {}; // Store historical gravity data per device
 
 app.use(express.static('dist'));
 
@@ -12,7 +13,14 @@ app.use(bodyParser.json({
   limit: '100kb',
 }));
 
-app.get('/api/getData', (req, res) => res.send(iSpindelData));
+app.get('/api/getData', (req, res) => {
+  // Attach history to each device
+  const dataWithHistory = iSpindelData.map(spindel => ({
+    ...spindel,
+    history: gravityHistory[spindel.ID] || []
+  }));
+  res.send(dataWithHistory);
+});
 
 app.use(express.json());
 
@@ -21,6 +29,23 @@ app.post('/', (req, res) => {
   const time = new Date();
   const formattedNumber = ( number ) => ('0' + number).slice(-2);
   req.body.time = `${time.getHours()}:${formattedNumber(time.getMinutes())}:${formattedNumber(time.getSeconds())}`;
+
+  // Store gravity history (keep last 50 data points)
+  if (!gravityHistory[req.body.ID]) {
+    gravityHistory[req.body.ID] = [];
+  }
+  gravityHistory[req.body.ID].push({
+    time: req.body.time,
+    gravity: req.body.gravity,
+    temperature: req.body.temperature,
+    battery: req.body.battery,
+    timestamp: time.getTime()
+  });
+
+  // Keep only the last 50 data points
+  if (gravityHistory[req.body.ID].length > 50) {
+    gravityHistory[req.body.ID].shift();
+  }
 
   if (existingIndex > -1) {
     iSpindelData.splice(existingIndex, 1, req.body);

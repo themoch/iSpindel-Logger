@@ -30,11 +30,17 @@ module.exports = {
             maxSize: 100000
           }
         }
+      },
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false
+        }
       }
     ]
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx']
+    extensions: ['*', '.js', '.jsx', '.mjs']
   },
   devServer: {
     port: 3000,
