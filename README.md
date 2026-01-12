@@ -1,6 +1,6 @@
 # iSpindel Logger
 
-This is a NodeJs program to view the live data posted from one (or more) iSpindel devices in your browser.
+This is a Node.js program to view the live data posted from one (or more) iSpindel devices in your browser.
 
 ![Logger](./src/images/logger.png)
 
@@ -12,7 +12,7 @@ This project was built on top of [simple-react-full-stack](https://github.com/cr
 
 ## Introduction
 
-In order to calibrate your iSpindel it is required to capture the tilt data while it floats in solution.
+To calibrate your iSpindel, it is required to capture the tilt data while it floats in a known gravity solution.
 
 Calibration Instructions can be found here: [http://www.ispindel.de/docs/Calibration_en.html](http://www.ispindel.de/docs/Calibration_en.html)
 
@@ -22,7 +22,7 @@ iSpindel Calibration logging tool can be found here: [http://www.ispindel.de/too
 
 1) Get the IP address of your computer: [https://www.howtogeek.com/233952/how-to-find-your-routers-ip-address-on-any-computer-smartphone-or-tablet/](https://www.howtogeek.com/233952/how-to-find-your-routers-ip-address-on-any-computer-smartphone-or-tablet/)
 
-2) Connect to your iSpindel via WiFi and make the following settings:
+2) Connect to your iSpindel via Wi-Fi and make the following settings:
 
     ![Logger](./src/images/settings.png)
     
@@ -53,11 +53,11 @@ npm start
 
 Your browser will open after the server is up and running.  
 
-After you capture the data, don't forget to change your iSpindel settings back to your desired service type and port.
+After you capture the data, be sure to change your iSpindel settings back to your desired service type and port.
 
 
 ## ToDo:
 * Add bot for notifications of start and stop fermentation: https://core.telegram.org/api#bot-api
-* interface to allow assignment of fermenter/tank to device
-* UI to show change over period of time (hour, day, 3-day, week, month)
+* interface to allow assignment of fermenter/tank to a device
+* UI to show change over a period of time (hour, day, 3-day, week, month)
 * UI / calculation to display approx alcohol in solution

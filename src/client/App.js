@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './app.css';
+import GravityChart from './GravityChart';
 
 export default class App extends Component {
   state = {
@@ -52,6 +53,11 @@ export default class App extends Component {
                     {iSpindel.name} ({iSpindel.ID}) -
                     <span>{iSpindel.time}</span>
                   </h2>
+                  {iSpindel.history && iSpindel.history.length > 0 && (
+                      <div className="chartContainer">
+                        <GravityChart history={iSpindel.history} />
+                      </div>
+                  )}
                   <div className="info">
                     <div className="row">
                       <div className="left"><strong>Time</strong></div>
