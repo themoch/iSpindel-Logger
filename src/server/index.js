@@ -1,7 +1,6 @@
 const express = require('express');
 const os = require('os');
 const bodyParser = require('body-parser');
-const open = require('open');
 
 const app = express();
 const iSpindelData = [];
@@ -62,8 +61,9 @@ app.post('/', (req, res) => {
   res.send(iSpindelData);
 });
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 5000, async () => {
   const OSLocal = os.platform() !== 'win32' ? 'http://localhost' : 'http://127.0.0.1';
   console.log(`Listening on port ${process.env.PORT || 5000}!`);
-  open(`${OSLocal}:${process.env.PORT || 5000}`);
+  const open = (await import('open')).default;
+  await open(`${OSLocal}:${process.env.PORT || 5000}`);
 });
