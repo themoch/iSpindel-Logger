@@ -35,7 +35,11 @@ const GravityChart = ({ history }) => {
 
     const now = Date.now();
     const timeWindows = {
-      'day': 24 * 60 * 60 * 1000,        // 1 day in milliseconds
+      'hour': 60 * 60 * 1000,            // 1 hour in milliseconds
+      '3hours': 3 * 60 * 60 * 1000,      // 3 hours
+      '6hours': 6 * 60 * 60 * 1000,      // 6 hours
+      '12hours': 12 * 60 * 60 * 1000,    // 12 hours
+      'day': 24 * 60 * 60 * 1000,        // 1 day
       '3days': 3 * 24 * 60 * 60 * 1000,  // 3 days
       'week': 7 * 24 * 60 * 60 * 1000,   // 1 week
       'month': 30 * 24 * 60 * 60 * 1000  // 30 days
@@ -211,6 +215,10 @@ const GravityChart = ({ history }) => {
           }}
         >
           <option value="all">All Time</option>
+          <option value="hour">Last 1 Hour</option>
+          <option value="3hours">Last 3 Hours</option>
+          <option value="6hours">Last 6 Hours</option>
+          <option value="12hours">Last 12 Hours</option>
           <option value="day">Last 24 Hours</option>
           <option value="3days">Last 3 Days</option>
           <option value="week">Last Week</option>

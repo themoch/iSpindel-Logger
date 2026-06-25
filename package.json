@@ -5,14 +5,16 @@
   "main": "src/server/index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "start": "npm run build && node src/server/index.js",
+    "start": "npm run build && NODE_ENV=production node src/server/index.js",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
-    "server": "nodemon src/server/index.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "server": "NODE_ENV=development nodemon src/server/index.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "seed": "node seed-database.js"
   },
   "author": "Andrew Moch",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^12.6.0",
     "body-parser": "^1.20.3",
     "chart.js": "^4.5.1",
     "core-js": "^3.39.0",
